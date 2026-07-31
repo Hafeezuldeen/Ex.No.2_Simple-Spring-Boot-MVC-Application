@@ -199,3 +199,8 @@ public class HomeController {
 
 ## OUTPUT
 <img width="1912" height="1188" alt="Screenshot 2026-05-20 at 10 59 43 AM" src="https://github.com/user-attachments/assets/ed361357-0b33-4b57-96be-67f154f03dd7" />
+
+
+ ### RESULT:
+ Thus,the simple spring boot application using MVC was implemented and executed successfully.
+
