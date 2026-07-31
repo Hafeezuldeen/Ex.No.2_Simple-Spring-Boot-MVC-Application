@@ -48,97 +48,154 @@ Access the Application:
 
 Open a browser and navigate to http://localhost:8080/
 ## PROGRAM
-spring-mvc-demo/
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com.example.mvc/
-│       │       ├── MvcApplication.java
-│       │       └── HomeController.java
-│       └── resources/
-│           ├── templates/
-│           │   └── index.html
-│           └── application.properties
-├── pom.xml
+mvcdemo
+ ┣ src/main/java/com/example/MVC
+ ┃ ┣ controller
+ ┃ ┃ ┗ HomeController.java
+ ┃ ┣ model
+ ┃ ┃ ┗ User.java
+ ┃ ┗ MVCApplication.java
+ ┃
+ ┣ src/main/resources
+ ┃ ┣ templates
+ ┃ ┃ ┗ home.html
+ ┃ ┗ application.properties
 
 ### pom.xml :
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.6</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>MVC</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name/>
+	<description/>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
 
-    <groupId>com.example</groupId>
-    <artifactId>spring-mvc-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Spring MVC Demo</name>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
-    </parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
-    <dependencies>
-        <!-- Spring Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Thymeleaf for View Rendering -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-    </dependencies>
 </project>
+
+```
 
 ### MvcApplication.java (Main Class):
 
-package com.example.mvc;
+```
+package com.example.MVC;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MvcApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(MvcApplication.class, args);
-    }
+
+	public static void main(String[] args) {
+		SpringApplication.run(MvcApplication.class, args);
+	}
+
 }
+
+
+```
 
 ### HomeController.java (Controller):
 
-package com.example.mvc;
+```
+package com.example.MVC.controller;
 
+import com.example.MVC.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-
     @GetMapping("/")
-    public String homePage(Model model) {
-        model.addAttribute("message", "Welcome to Spring Boot MVC!");
-        return "index";  // refers to index.html in templates folder
+    public String home(Model model) {
+
+        User user = new User("Aaron");
+
+        model.addAttribute("user", user);
+
+        return "home";
     }
 }
-### index.html (View – inside src/main/resources/templates/):
 
+
+```
+### home.html (View – inside src/main/resources/templates/):
+
+```
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring MVC</title>
+    <title>Spring MVC Demo</title>
 </head>
 <body>
-    <h1 th:text="${message}">Default Message</h1>
+
+<h1>Spring Boot MVC Application</h1>
+
+<p th:text="'Welcome ' + ${user.name} + '!'"></p>
+
 </body>
 </html>
+
+```
 
 ### application.properties:
  server.port=8081
 
-
+## OUTPUT
+<img width="1912" height="1188" alt="Screenshot 2026-05-20 at 10 59 43 AM" src="https://github.com/user-attachments/assets/ed361357-0b33-4b57-96be-67f154f03dd7" />
